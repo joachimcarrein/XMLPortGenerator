@@ -40,7 +40,7 @@ namespace XMLPortGenerator
             sfd.CheckPathExists = true;
             sfd.DefaultExt = ".txt";
             sfd.Filter = "Text Files (*.txt)|*.TXT|All Files (*.*)|*.*";
-        
+
 
             if (sfd.ShowDialog() == DialogResult.OK)
             {
@@ -70,9 +70,9 @@ namespace XMLPortGenerator
             sb.AppendLine("    Direction=Import;");
             sb.AppendLine("    Format=Variable Text;");
             if (txtDelimiter.Text != "")
-            sb.AppendLine("    FieldDelimiter=" + txtDelimiter.Text + ";");
+                sb.AppendLine("    FieldDelimiter=" + txtDelimiter.Text + ";");
             if (txtSeparator.Text != "")
-            sb.AppendLine("    FieldSeparator=" + txtSeparator.Text + ";");
+                sb.AppendLine("    FieldSeparator=" + txtSeparator.Text + ";");
             sb.AppendLine("  }");
             sb.AppendLine("  ELEMENTS");
             sb.AppendLine("  {");
@@ -82,14 +82,26 @@ namespace XMLPortGenerator
             sb.AppendLine("    { [" + GenerateGuid() + "];1 ;source              ;Element ;Table   ;");
             sb.AppendLine("                                                  SourceTable=Table" + nudSourceTableNo.Value + " }");
 
+            bool FieldsStarted = false;
             // loop fields
             foreach (string line in txtFields.Lines)
             {
-                string[] Values = line.Split(';');
+                if ((FieldsStarted) && (line.StartsWith("    {")))
+                {
+                    string[] Values = line.Split(';');
 
-                sb.AppendLine("    { [" + GenerateGuid() + "];2 ;" + Values[2].TrimEnd().PadRight(20, ' ') + ";Element ;Field   ;");
-                sb.AppendLine("                                                  DataType=" + new string(Values[3].Where(c => c > 'A' && c < 'z').ToArray()) + ";");
-                sb.AppendLine("                                                  SourceField=" + txtSourceTableName.Text + "::" + Values[2].TrimEnd() + " }");
+                    sb.AppendLine("    { [" + GenerateGuid() + "];2 ;" + Values[2].TrimEnd().PadRight(20, ' ') + ";Element ;Field   ;");
+                    sb.AppendLine("                                                  DataType=" + new string(Values[3].Where(c => c > 'A' && c < 'z').ToArray()) + ";");
+                    sb.AppendLine("                                                  SourceField=" + txtSourceTableName.Text + "::" + Values[2].TrimEnd() + " }");
+                }
+                if (line.Equals("  FIELDS"))
+                {
+                    FieldsStarted = true;
+                }
+                if (line.Equals("  }"))
+                {
+                    FieldsStarted = false;
+                }
             }
 
             sb.AppendLine("  }");
@@ -130,6 +142,6 @@ namespace XMLPortGenerator
             return "{" + Guid.NewGuid().ToString().ToUpper() + "}";
         }
         #endregion
-        
+
     }
 }
