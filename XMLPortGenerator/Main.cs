@@ -89,8 +89,8 @@ namespace XMLPortGenerator
                 if ((FieldsStarted) && (line.StartsWith("    {")))
                 {
                     string[] Values = line.Split(';');
-
-                    sb.AppendLine("    { [" + GenerateGuid() + "];2 ;" + Values[2].TrimEnd().PadRight(20, ' ') + ";Element ;Field   ;");
+                   
+                    sb.AppendLine("    { [" + GenerateGuid() + "];2 ;" + Values[2].PrepareForXMLField() + ";Element ;Field   ;");
                     sb.AppendLine("                                                  DataType=" + new string(Values[3].Where(c => c > 'A' && c < 'z').ToArray()) + ";");
                     sb.AppendLine("                                                  SourceField=" + txtSourceTableName.Text + "::" + Values[2].TrimEnd() + " }");
                 }
