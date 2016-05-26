@@ -165,6 +165,7 @@
             this.txtFields.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.txtFields.Location = new System.Drawing.Point(13, 166);
+            this.txtFields.MaxLength = 0;
             this.txtFields.Multiline = true;
             this.txtFields.Name = "txtFields";
             this.txtFields.Size = new System.Drawing.Size(390, 358);
@@ -177,6 +178,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtXMLPort.Location = new System.Drawing.Point(412, 166);
+            this.txtXMLPort.MaxLength = 0;
             this.txtXMLPort.Multiline = true;
             this.txtXMLPort.Name = "txtXMLPort";
             this.txtXMLPort.ScrollBars = System.Windows.Forms.ScrollBars.Both;
